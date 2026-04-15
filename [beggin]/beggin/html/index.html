@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Beggin HUD</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div id="topbar">
+        <span id="top-day">---</span>
+        <span class="top-sep"></span>
+        <span id="top-time">--:--</span>
+        <span class="top-sep"></span>
+        <span id="top-id">#--</span>
+    </div>
+
+    <div id="hud" class="hidden">
+        <div class="hud-top">
+            <div class="card card-weather weather-clear" id="card-weather">
+                <div class="weather-icon" id="weather-icon">☀️</div>
+                <div class="weather-info">
+                    <span class="weather-label" id="weather-label">SUNNY</span>
+                    <span class="weather-time" id="weather-time">08:02</span>
+                </div>
+            </div>
+            <div class="card card-location">
+                <div class="location-icon">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 17h14l-1.5-5H6.5L5 17Z"/>
+                        <path d="M6.5 12 8 7h8l1.5 5"/>
+                        <circle cx="8" cy="17" r="1.5"/>
+                        <circle cx="16" cy="17" r="1.5"/>
+                    </svg>
+                </div>
+                <div class="location-info">
+                    <span class="location-label">LOCATION</span>
+                    <span class="location-street" id="location-street">---</span>
+                </div>
+            </div>
+        </div>
+        <div class="hud-stats">
+            <div class="stat" data-stat="health">
+                <div class="stat-icon stat-health">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 21s-7-4.5-9.3-9.1C1 8.5 3.2 5 6.7 5c2 0 3.5 1 4.3 2.3h2C13.8 6 15.3 5 17.3 5c3.5 0 5.7 3.5 4 6.9C19 16.5 12 21 12 21Z"/></svg>
+                </div>
+                <div class="stat-bar"><div class="stat-fill" id="fill-health"></div></div>
+            </div>
+            <div class="stat" data-stat="armor">
+                <div class="stat-icon stat-armor">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 2 4 5v6c0 5 3.4 9.5 8 11 4.6-1.5 8-6 8-11V5l-8-3Z"/></svg>
+                </div>
+                <div class="stat-bar"><div class="stat-fill" id="fill-armor"></div></div>
+            </div>
+            <div class="stat" data-stat="food">
+                <div class="stat-icon stat-food">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 3v8M7 11c-1.5 0-2.5-1-2.5-2.5V3"/><path d="M9.5 3v5.5C9.5 10 8.5 11 7 11"/><path d="M16 3c-1.5 0-3 1.5-3 4s1.5 4 3 4v10"/><path d="M7 11v10"/></svg>
+                </div>
+                <div class="stat-bar"><div class="stat-fill" id="fill-food"></div></div>
+            </div>
+            <div class="stat" data-stat="thirst">
+                <div class="stat-icon stat-thirst">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 3s6 7 6 12a6 6 0 0 1-12 0c0-5 6-12 6-12Z"/></svg>
+                </div>
+                <div class="stat-bar"><div class="stat-fill" id="fill-thirst"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notifications"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
