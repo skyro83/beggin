@@ -95,6 +95,17 @@ AddEventHandler('playerConnecting', function(name, setKickReason, deferrals)
         deferrals.done('[beggin] no Rockstar license found — cannot connect.')
         return
     end
+
+    if Beggin.Admin and Beggin.Admin.CheckBan then
+        deferrals.update('Beggin: verification ban...')
+        local ban = Beggin.Admin.CheckBan(identifier)
+        if ban then
+            local until_ = ban.expires_at and (' (jusqu\'au ' .. tostring(ban.expires_at) .. ')') or ' (permanent)'
+            deferrals.done('[BAN] ' .. (ban.reason or '') .. until_)
+            return
+        end
+    end
+
     deferrals.done()
 end)
 

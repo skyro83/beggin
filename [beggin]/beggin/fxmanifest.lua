@@ -21,12 +21,14 @@ server_scripts {
     'server/needs.lua',
     'server/commands.lua',
     'server/exports.lua',
+    'server/admin.lua',
 }
 
 client_scripts {
     'client/main.lua',
     'client/player.lua',
     'client/hud.lua',
+    'client/admin.lua',
 }
 
 ui_page 'html/index.html'
@@ -35,6 +37,8 @@ files {
     'html/index.html',
     'html/style.css',
     'html/app.js',
+    'html/admin.css',
+    'html/admin.js',
 }
 
 dependencies {
