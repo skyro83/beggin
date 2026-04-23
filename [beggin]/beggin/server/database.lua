@@ -1,7 +1,10 @@
 Beggin.DB = { Ready = false }
 
+<<<<<<< HEAD
 -- ─── Schemas & Migrations ────────────────────────────────────────────
 
+=======
+>>>>>>> 56c38019c40a8813a66fc58a17af3a18589f39e9
 local SCHEMAS = {
 [[
 CREATE TABLE IF NOT EXISTS `users` (
@@ -41,6 +44,7 @@ CREATE TABLE IF NOT EXISTS `admin_logs` (
   KEY `idx_action` (`action`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ]],
+<<<<<<< HEAD
 [[
 CREATE TABLE IF NOT EXISTS `item_transactions` (
   `id`           INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -90,6 +94,8 @@ CREATE TABLE IF NOT EXISTS `characters` (
   KEY `idx_identifier` (`identifier`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ]],
+=======
+>>>>>>> 56c38019c40a8813a66fc58a17af3a18589f39e9
 }
 
 local MIGRATIONS = {
@@ -197,9 +203,12 @@ CreateThread(function()
         for _, schema in ipairs(SCHEMAS) do
             MySQL.query.await(schema)
         end
+<<<<<<< HEAD
         for _, migration in ipairs(MIGRATIONS) do
             pcall(MySQL.query.await, migration)
         end
+=======
+>>>>>>> 56c38019c40a8813a66fc58a17af3a18589f39e9
     end)
     if not ok then
         Beggin.Log('error', 'failed to ensure schema: %s', tostring(err))

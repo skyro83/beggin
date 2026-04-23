@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS `bans` (
   KEY `idx_identifier` (`identifier`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+<<<<<<< HEAD
 CREATE TABLE IF NOT EXISTS `characters` (
   `id`          INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `identifier`  VARCHAR(60)  NOT NULL,
@@ -67,6 +68,8 @@ CREATE TABLE IF NOT EXISTS `money_transactions` (
   KEY `idx_charid_id` (`charid`, `id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+=======
+>>>>>>> 56c38019c40a8813a66fc58a17af3a18589f39e9
 CREATE TABLE IF NOT EXISTS `admin_logs` (
   `id`         INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `admin`      VARCHAR(60)  NOT NULL DEFAULT '',

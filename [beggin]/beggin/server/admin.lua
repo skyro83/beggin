@@ -220,6 +220,7 @@ adminEvent('beggin:admin:money', function(src, targetId, account, amount, op)
     if not p then notify(src, 'Joueur introuvable.', 'error'); return end
     if account ~= 'cash' and account ~= 'bank' then return end
 
+<<<<<<< HEAD
     local adminId = src == 0 and 'console' or (getIdentifier(src) or ('src:' .. src))
     local reason = 'admin:' .. adminId
     if op == 'add' then
@@ -228,6 +229,14 @@ adminEvent('beggin:admin:money', function(src, targetId, account, amount, op)
         p.removeMoney(account, amount, reason)
     else
         p.setMoney(account, amount, reason)
+=======
+    if op == 'add' then
+        p.addMoney(account, amount)
+    elseif op == 'remove' then
+        p.removeMoney(account, amount)
+    else
+        p.setMoney(account, amount)
+>>>>>>> 56c38019c40a8813a66fc58a17af3a18589f39e9
     end
     notify(src, ('%s %s.%s = %s'):format(op or 'set', p.name, account, amount), 'success')
     logAction(src, 'money_' .. (op or 'set'), targetId, { account = account, amount = amount })

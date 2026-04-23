@@ -33,7 +33,10 @@ client_scripts {
     'client/player.lua',
     'client/hud.lua',
     'client/admin.lua',
+<<<<<<< HEAD
     'client/inventory.lua',
+=======
+>>>>>>> 56c38019c40a8813a66fc58a17af3a18589f39e9
 }
 
 ui_page 'html/index.html'
@@ -42,12 +45,17 @@ files {
     'html/index.html',
     'html/style.css',
     'html/app.js',
+<<<<<<< HEAD
     'html/characters.css',
     'html/characters.js',
     'html/admin.css',
     'html/admin.js',
     'html/inventory.css',
     'html/inventory.js',
+=======
+    'html/admin.css',
+    'html/admin.js',
+>>>>>>> 56c38019c40a8813a66fc58a17af3a18589f39e9
 }
 
 dependencies {
