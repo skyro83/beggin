@@ -17,16 +17,23 @@ server_scripts {
     'server/main.lua',
     'server/database.lua',
     'server/player.lua',
+    'server/characters.lua',
     'server/players.lua',
+    'server/money.lua',
     'server/needs.lua',
+    'server/inventory.lua',
     'server/commands.lua',
     'server/exports.lua',
+    'server/admin.lua',
 }
 
 client_scripts {
     'client/main.lua',
+    'client/characters.lua',
     'client/player.lua',
     'client/hud.lua',
+    'client/admin.lua',
+    'client/inventory.lua',
 }
 
 ui_page 'html/index.html'
@@ -35,6 +42,12 @@ files {
     'html/index.html',
     'html/style.css',
     'html/app.js',
+    'html/characters.css',
+    'html/characters.js',
+    'html/admin.css',
+    'html/admin.js',
+    'html/inventory.css',
+    'html/inventory.js',
 }
 
 dependencies {

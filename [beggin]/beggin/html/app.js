@@ -59,7 +59,11 @@ function updateEnv(data) {
 }
 
 function updateTopbar(data) {
-    if (data.playerId !== undefined) topId.textContent = '#' + data.playerId;
+    if (data.playerId !== undefined) {
+        let text = '#' + data.playerId;
+        if (data.charName) text += ' — ' + data.charName;
+        topId.textContent = text;
+    }
 }
 
 function tickRealClock() {

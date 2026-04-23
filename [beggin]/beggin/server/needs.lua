@@ -32,7 +32,11 @@ function Beggin.ModifyNeed(source, key, delta)
     player.setMetadata(key, clamp(cur + (tonumber(delta) or 0)))
 end
 
-AddEventHandler('beggin:playerLoaded', function(source, player)
+-- TriggerEvent serializes args via msgpack and strips metatables,
+-- so resolve the live Player object from the in-memory registry.
+AddEventHandler('beggin:playerLoaded', function(src)
+    local player = Beggin.GetPlayer(src)
+    if not player then return end
     ensureNeeds(player)
 end)
 
@@ -45,8 +49,7 @@ CreateThread(function()
             local thirst = tonumber(player.getMetadata('thirst')) or 100
             food = clamp(food - Config.Needs.FoodDrain)
             thirst = clamp(thirst - Config.Needs.ThirstDrain)
-            player.setMetadata('food', food)
-            player.setMetadata('thirst', thirst)
+            player.setMetadataBulk({ food = food, thirst = thirst })
 
             if food <= 0 or thirst <= 0 then
                 local ped = GetPlayerPed(src)

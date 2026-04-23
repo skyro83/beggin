@@ -39,3 +39,10 @@ RegisterNetEvent('beggin:updatePlayerData', function(patch)
     end
     TriggerEvent('beggin:playerDataUpdated', patch)
 end)
+
+-- Inventory full-replace sync: removals must be visible on the client,
+-- so we swap the whole table rather than merging a patch.
+RegisterNetEvent('beggin:inventory:sync', function(inventory)
+    Beggin.PlayerData.inventory = inventory or {}
+    TriggerEvent('beggin:inventoryChanged', Beggin.PlayerData.inventory)
+end)

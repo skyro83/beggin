@@ -68,7 +68,11 @@ CreateThread(function()
     while true do
         local id = GetPlayerServerId(PlayerId())
         if id and id > 0 then
-            SendNUIMessage({ action = 'updateTopbar', playerId = id })
+            local charName = nil
+            if Beggin.PlayerData and Beggin.PlayerData.firstname then
+                charName = Beggin.PlayerData.firstname .. ' ' .. (Beggin.PlayerData.lastname or '')
+            end
+            SendNUIMessage({ action = 'updateTopbar', playerId = id, charName = charName })
         end
         Wait(5000)
     end
@@ -128,10 +132,12 @@ RegisterNetEvent('beggin:notify', notify)
 
 exports('Notify', notify)
 
-exports('SetHudVisible', function(v)
+function Beggin.SetHudVisible(v)
     hudVisible = v and true or false
     SendNUIMessage({ action = 'setVisible', visible = hudVisible })
-end)
+end
+
+exports('SetHudVisible', Beggin.SetHudVisible)
 
 RegisterCommand('hud', function()
     hudVisible = not hudVisible

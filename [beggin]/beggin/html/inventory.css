@@ -1,0 +1,520 @@
+/* ============================================================
+   INVENTORY — Beggin palette, disposition inspiree Figma
+   ============================================================ */
+
+#inventory-screen {
+    position: fixed;
+    inset: 0;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1100;
+    pointer-events: auto;
+    animation: inv-fade-in 180ms ease;
+}
+@keyframes inv-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+.inv-window {
+    width: min(1240px, 96vw);
+    height: min(780px, 94vh);
+    display: flex;
+    flex-direction: column;
+    border-radius: 26px;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(40, 48, 66, 0.85), rgba(20, 24, 36, 0.92));
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(22px);
+    color: #fff;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+/* ===================== HEADER ===================== */
+.inv-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: 22px;
+    padding: 20px 26px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    background: linear-gradient(180deg, rgba(25, 30, 45, 0.6), rgba(15, 18, 28, 0.4));
+}
+
+.inv-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.inv-brand-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #ff6b7a, #d63144);
+    box-shadow: 0 0 14px rgba(255, 107, 122, 0.7);
+}
+.inv-brand-name {
+    font-weight: 800;
+    letter-spacing: 2px;
+    font-size: 13px;
+}
+
+.inv-title-block { min-width: 0; }
+.inv-title {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+.inv-desc {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 2px;
+    line-height: 1.4;
+}
+
+.inv-weight {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: linear-gradient(145deg, rgba(255, 107, 122, 0.18), rgba(214, 49, 68, 0.12));
+    border: 1px solid rgba(255, 107, 122, 0.25);
+}
+.inv-weight-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+.inv-weight-value {
+    font-size: 18px;
+    font-weight: 700;
+}
+.inv-weight-max {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+.inv-weight-icon {
+    color: #ff8595;
+    display: flex;
+}
+.inv-weight.overload {
+    background: linear-gradient(145deg, rgba(255, 60, 80, 0.4), rgba(180, 30, 50, 0.3));
+    border-color: rgba(255, 107, 122, 0.6);
+    animation: inv-pulse 1.2s ease-in-out infinite;
+}
+@keyframes inv-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 122, 0.45); }
+    50%      { box-shadow: 0 0 0 8px rgba(255, 107, 122, 0); }
+}
+
+.inv-exit {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(255, 255, 255, 0.9);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background 140ms ease, border-color 140ms ease, transform 140ms ease;
+}
+.inv-exit:hover {
+    background: linear-gradient(145deg, rgba(255, 107, 122, 0.22), rgba(214, 49, 68, 0.18));
+    border-color: rgba(255, 107, 122, 0.45);
+    transform: translateY(-1px);
+}
+
+/* ===================== BODY ===================== */
+.inv-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 0;
+    min-height: 0;
+}
+
+/* ===================== MAIN ===================== */
+.inv-main {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 22px 26px;
+    overflow-y: auto;
+}
+
+.inv-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.inv-search input {
+    flex: 1;
+    padding: 11px 14px 11px 40px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(12, 16, 26, 0.55);
+    color: #fff;
+    font: inherit;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 140ms ease, background 140ms ease;
+}
+.inv-search input::placeholder { color: rgba(255, 255, 255, 0.35); }
+.inv-search input:focus {
+    border-color: rgba(107, 201, 255, 0.45);
+    background: rgba(15, 22, 35, 0.7);
+}
+.inv-search svg {
+    position: absolute;
+    left: 14px;
+    color: rgba(255, 255, 255, 0.45);
+    pointer-events: none;
+}
+
+/* ===================== GRID ===================== */
+.inv-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+}
+
+.inv-slot {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    background: linear-gradient(135deg, rgba(30, 36, 52, 0.55), rgba(15, 20, 32, 0.75));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 8px;
+    gap: 6px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+}
+.inv-slot:hover {
+    transform: translateY(-2px);
+    border-color: rgba(107, 201, 255, 0.35);
+    background: linear-gradient(135deg, rgba(35, 42, 60, 0.7), rgba(18, 24, 38, 0.85));
+}
+.inv-slot.selected {
+    border-color: rgba(255, 170, 80, 0.75);
+    background: linear-gradient(135deg, rgba(60, 48, 28, 0.7), rgba(30, 22, 12, 0.85));
+    box-shadow: 0 0 0 1px rgba(255, 170, 80, 0.35) inset, 0 8px 24px rgba(255, 140, 40, 0.15);
+}
+.inv-slot.empty {
+    cursor: default;
+    border-style: dashed;
+    border-color: rgba(255, 255, 255, 0.04);
+    background: rgba(10, 14, 24, 0.25);
+}
+.inv-slot.empty:hover { transform: none; border-color: rgba(255, 255, 255, 0.04); background: rgba(10, 14, 24, 0.25); }
+
+.inv-slot-count {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 3px 7px;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #f5c060, #c98421);
+    color: #1a120a;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+.inv-slot-icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6bc9ff;
+    filter: drop-shadow(0 2px 6px rgba(107, 201, 255, 0.35));
+}
+.inv-slot-icon svg { width: 100%; height: 100%; }
+.inv-slot-name {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.92);
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.inv-slot-accent {
+    position: absolute;
+    left: 14%;
+    right: 14%;
+    bottom: 6px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, transparent, #ff6b7a, transparent);
+    opacity: 0.8;
+}
+.inv-slot.usable .inv-slot-accent {
+    background: linear-gradient(90deg, transparent, #6bc9ff, transparent);
+}
+
+/* ===================== FAST ACCESS ===================== */
+.inv-fast {
+    margin-top: 8px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.inv-fast-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #f5c060;
+}
+.inv-fast-head h3 {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #fff;
+    margin: 0;
+}
+.inv-fast-grid {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    max-width: 540px;
+}
+
+/* ===================== DETAIL (right) ===================== */
+.inv-detail {
+    border-left: 1px solid rgba(255, 255, 255, 0.07);
+    background: linear-gradient(180deg, rgba(18, 22, 34, 0.55), rgba(10, 14, 24, 0.75));
+    padding: 22px 22px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+}
+
+.inv-detail-empty {
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.4);
+    text-align: center;
+}
+.inv-detail-empty-msg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.inv-detail-empty-msg p { font-size: 12px; line-height: 1.5; max-width: 220px; }
+
+.inv-detail-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.inv-detail-icon {
+    width: 62px;
+    height: 62px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(107, 201, 255, 0.2), rgba(31, 127, 214, 0.15));
+    border: 1px solid rgba(107, 201, 255, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6bc9ff;
+    flex-shrink: 0;
+}
+.inv-detail-icon svg { width: 32px; height: 32px; }
+.inv-detail-info { min-width: 0; }
+.inv-detail-name {
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+}
+.inv-detail-meta {
+    margin-top: 4px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
+.inv-detail-desc {
+    font-size: 12px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: rgba(12, 16, 26, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.inv-detail-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+.inv-stat {
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: rgba(12, 16, 26, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.inv-stat-label {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 0.9px;
+    text-transform: uppercase;
+}
+.inv-stat-value {
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 2px;
+}
+
+.inv-detail-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.inv-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    border-radius: 11px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(135deg, rgba(30, 36, 52, 0.7), rgba(15, 20, 32, 0.85));
+    color: #fff;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    cursor: pointer;
+    text-align: left;
+    transition: background 140ms ease, border-color 140ms ease, transform 140ms ease;
+}
+.inv-action-btn:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+.inv-action-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none;
+}
+.inv-action-use    { background: linear-gradient(135deg, rgba(107, 201, 255, 0.25), rgba(31, 127, 214, 0.18)); border-color: rgba(107, 201, 255, 0.3); }
+.inv-action-use:hover    { background: linear-gradient(135deg, rgba(107, 201, 255, 0.35), rgba(31, 127, 214, 0.28)); }
+.inv-action-give   { background: linear-gradient(135deg, rgba(245, 192, 96, 0.22), rgba(201, 132, 33, 0.18)); border-color: rgba(245, 192, 96, 0.3); }
+.inv-action-give:hover   { background: linear-gradient(135deg, rgba(245, 192, 96, 0.32), rgba(201, 132, 33, 0.28)); }
+.inv-action-drop   { background: linear-gradient(135deg, rgba(255, 107, 122, 0.22), rgba(214, 49, 68, 0.18)); border-color: rgba(255, 107, 122, 0.3); }
+.inv-action-drop:hover   { background: linear-gradient(135deg, rgba(255, 107, 122, 0.35), rgba(214, 49, 68, 0.28)); }
+
+.inv-action-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+/* ===================== PROMPT MODAL ===================== */
+.inv-prompt {
+    position: absolute;
+    inset: 0;
+    background: rgba(5, 8, 14, 0.55);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    animation: inv-fade-in 140ms ease;
+}
+.inv-prompt-box {
+    width: min(380px, 90%);
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(40, 48, 66, 0.95), rgba(20, 24, 36, 0.98));
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.inv-prompt-box header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+.inv-prompt-close {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+}
+.inv-prompt-body { padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+.inv-prompt-row { display: flex; flex-direction: column; gap: 6px; }
+.inv-prompt-row label {
+    font-size: 10px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+}
+.inv-prompt-row input {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(12, 16, 26, 0.6);
+    color: #fff;
+    font: inherit;
+    font-size: 13px;
+    outline: none;
+}
+.inv-prompt-row input:focus { border-color: rgba(107, 201, 255, 0.45); }
+.inv-prompt-box footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 12px 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.inv-btn-primary, .inv-btn-ghost {
+    padding: 9px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+}
+.inv-btn-primary {
+    background: linear-gradient(145deg, #6bc9ff, #1f7fd6);
+    color: #fff;
+    border-color: transparent;
+}
+.inv-btn-primary:hover { transform: translateY(-1px); }
+.inv-btn-ghost {
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(255, 255, 255, 0.8);
+}

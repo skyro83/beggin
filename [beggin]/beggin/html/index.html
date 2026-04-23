@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <title>Beggin HUD</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="admin.css" />
+    <link rel="stylesheet" href="characters.css" />
+    <link rel="stylesheet" href="inventory.css" />
 </head>
 <body>
     <div id="topbar">
@@ -68,6 +71,249 @@
 
     <div id="notifications"></div>
 
+    <div id="character-screen" class="hidden">
+        <div class="char-window">
+            <header class="char-header">
+                <div class="char-brand">
+                    <span class="char-brand-dot"></span>
+                    <span class="char-brand-name">BEGGIN</span>
+                </div>
+                <h2 class="char-title">MES PERSONNAGES</h2>
+            </header>
+            <div id="char-content" class="char-content"></div>
+        </div>
+        <div id="char-confirm" class="char-confirm hidden">
+            <div class="char-confirm-box">
+                <p id="char-confirm-text"></p>
+                <div class="char-confirm-actions">
+                    <button id="char-confirm-yes" class="admin-btn admin-btn-warn">Confirmer</button>
+                    <button id="char-confirm-no" class="admin-btn">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="admin-panel" class="hidden">
+        <div class="admin-window">
+            <aside class="admin-sidebar">
+                <div class="admin-brand">
+                    <span class="admin-brand-dot"></span>
+                    <span class="admin-brand-name">BEGGIN</span>
+                    <span class="admin-brand-tag">ADMIN</span>
+                </div>
+                <nav class="admin-nav">
+                    <button class="admin-tab active" data-tab="players">👥 <span>Joueurs</span></button>
+                    <button class="admin-tab" data-tab="vehicles">🚗 <span>Vehicules</span></button>
+                    <button class="admin-tab" data-tab="teleport">📍 <span>Teleport</span></button>
+                    <button class="admin-tab" data-tab="staff">🛠️ <span>Staff Mode</span></button>
+                    <button class="admin-tab" data-tab="server">⚙️ <span>Serveur</span></button>
+                </nav>
+                <div class="admin-foot">
+                    <span id="admin-online">0 en ligne</span>
+                </div>
+            </aside>
+
+            <main class="admin-main">
+                <header class="admin-header">
+                    <input id="admin-search" type="text" placeholder="Rechercher un joueur (nom ou ID)..." />
+                    <button id="admin-refresh" class="admin-btn-icon" title="Actualiser">⟳</button>
+                    <button id="admin-close" class="admin-btn-icon admin-btn-close" title="Fermer">×</button>
+                </header>
+
+                <section class="admin-pane active" data-pane="players">
+                    <div id="player-list" class="player-grid"></div>
+                </section>
+
+                <section class="admin-pane" data-pane="vehicles">
+                    <div class="card-block">
+                        <h3>Spawn vehicule</h3>
+                        <div class="row">
+                            <input id="veh-model" type="text" placeholder="Modele (ex: adder)" />
+                            <button class="admin-btn" data-veh="spawn">Spawn</button>
+                        </div>
+                        <div id="veh-quick" class="chip-row"></div>
+                    </div>
+                    <div class="card-block">
+                        <h3>Vehicule courant</h3>
+                        <div class="row btn-row">
+                            <button class="admin-btn" data-veh="repair">🔧 Reparer</button>
+                            <button class="admin-btn" data-veh="clean">🧽 Nettoyer</button>
+                            <button class="admin-btn admin-btn-warn" data-veh="destroy">🔥 Detruire</button>
+                            <button class="admin-btn" data-veh="invincibleOn">🚓 God ON</button>
+                            <button class="admin-btn" data-veh="invincibleOff">🚓 God OFF</button>
+                        </div>
+                    </div>
+                    <div class="card-block">
+                        <h3>Zone</h3>
+                        <button class="admin-btn admin-btn-warn" data-veh="deleteNear">🔄 Supprimer vehicules proches</button>
+                    </div>
+                </section>
+
+                <section class="admin-pane" data-pane="teleport">
+                    <div class="card-block">
+                        <h3>Rapide</h3>
+                        <div class="row btn-row">
+                            <button class="admin-btn" id="tp-waypoint">🗺️ Waypoint</button>
+                            <button class="admin-btn" id="tp-back">↩️ Position precedente</button>
+                        </div>
+                    </div>
+                    <div class="card-block">
+                        <h3>Lieux predefinis</h3>
+                        <div id="tp-locations" class="chip-row"></div>
+                    </div>
+                    <div class="card-block">
+                        <h3>Coordonnees</h3>
+                        <div class="row">
+                            <input id="tp-x" type="number" step="0.1" placeholder="X" />
+                            <input id="tp-y" type="number" step="0.1" placeholder="Y" />
+                            <input id="tp-z" type="number" step="0.1" placeholder="Z" />
+                            <button class="admin-btn" id="tp-coords-go">TP</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="admin-pane" data-pane="staff">
+                    <div class="card-block">
+                        <h3>Mode staff complet</h3>
+                        <p class="muted">Active god + invisible + noclip + ESP en un clic.</p>
+                        <button class="admin-btn admin-btn-primary" data-staff-all="on">⚡ Activer tout</button>
+                        <button class="admin-btn" data-staff-all="off">🛑 Desactiver tout</button>
+                    </div>
+                    <div class="card-block">
+                        <h3>Toggles individuels</h3>
+                        <div class="toggles">
+                            <label class="toggle"><input type="checkbox" data-staff="god"><span>🕊️ God mode</span></label>
+                            <label class="toggle"><input type="checkbox" data-staff="invis"><span>👻 Invisible</span></label>
+                            <label class="toggle"><input type="checkbox" data-staff="noclip"><span>🚶 Noclip</span></label>
+                            <label class="toggle"><input type="checkbox" data-staff="fly"><span>🪶 Fly</span></label>
+                            <label class="toggle"><input type="checkbox" data-staff="esp"><span>👁️ ESP</span></label>
+                        </div>
+                        <p class="muted small">Noclip : WASD pour bouger, Q/E haut/bas, Shift pour vitesse rapide.</p>
+                    </div>
+                </section>
+
+                <section class="admin-pane" data-pane="server">
+                    <div class="card-block">
+                        <h3>Annonce globale</h3>
+                        <div class="row">
+                            <input id="srv-announce" type="text" placeholder="Message a diffuser..." />
+                            <button class="admin-btn" id="srv-announce-go">📢 Envoyer</button>
+                        </div>
+                    </div>
+                    <div class="card-block">
+                        <h3>Bans</h3>
+                        <div class="row">
+                            <input id="srv-unban" type="text" placeholder="Identifier (license:...) a unban" />
+                            <button class="admin-btn" id="srv-unban-go">Unban</button>
+                            <button class="admin-btn" id="srv-banlist">Lister bans</button>
+                        </div>
+                        <div id="ban-list" class="ban-list"></div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- Modal action joueur -->
+        <div id="action-modal" class="modal hidden">
+            <div class="modal-box">
+                <header class="modal-head">
+                    <span id="modal-title">Action</span>
+                    <button class="admin-btn-icon" id="modal-close">×</button>
+                </header>
+                <div id="modal-body" class="modal-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="inventory-screen" class="hidden">
+        <div class="inv-window">
+            <header class="inv-header">
+                <div class="inv-brand">
+                    <span class="inv-brand-dot"></span>
+                    <span class="inv-brand-name">BEGGIN</span>
+                </div>
+                <div class="inv-title-block">
+                    <h2 class="inv-title">Inventaire</h2>
+                    <p class="inv-desc">Tous vos objets personnels. Cliquez sur un item pour voir les actions disponibles.</p>
+                </div>
+                <div class="inv-weight">
+                    <div class="inv-weight-text">
+                        <span class="inv-weight-value" id="inv-weight-cur">0</span>
+                        <span class="inv-weight-max" id="inv-weight-max">/ 30 KG</span>
+                    </div>
+                    <div class="inv-weight-icon">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3v2" />
+                            <path d="M5 7h14l-2 13H7L5 7z" />
+                            <circle cx="12" cy="3" r="1" fill="currentColor"/>
+                        </svg>
+                    </div>
+                </div>
+                <button id="inv-exit" class="inv-exit">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                    Exit
+                </button>
+            </header>
+
+            <div class="inv-body">
+                <section class="inv-main">
+                    <div class="inv-search">
+                        <input id="inv-search" type="text" placeholder="Rechercher un item..." />
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>
+                        </svg>
+                    </div>
+                    <div id="inv-grid" class="inv-grid"></div>
+                    <div class="inv-fast">
+                        <div class="inv-fast-head">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+                            <h3>Accès rapide</h3>
+                        </div>
+                        <p class="inv-desc">Vos 5 emplacements favoris (à venir).</p>
+                        <div id="inv-fast-slots" class="inv-fast-grid"></div>
+                    </div>
+                </section>
+
+                <aside id="inv-detail" class="inv-detail inv-detail-empty">
+                    <div class="inv-detail-empty-msg">
+                        <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="7" width="18" height="13" rx="2"/>
+                            <path d="M8 7V5a4 4 0 0 1 8 0v2"/>
+                        </svg>
+                        <p>Sélectionnez un item pour voir les actions.</p>
+                    </div>
+                </aside>
+            </div>
+        </div>
+
+        <!-- Prompt modal (donner / jeter quantité) -->
+        <div id="inv-prompt" class="inv-prompt hidden">
+            <div class="inv-prompt-box">
+                <header>
+                    <span id="inv-prompt-title">Action</span>
+                    <button id="inv-prompt-close" class="inv-prompt-close">×</button>
+                </header>
+                <div class="inv-prompt-body">
+                    <div id="inv-prompt-row-target" class="inv-prompt-row">
+                        <label>ID joueur</label>
+                        <input id="inv-prompt-target" type="number" min="1" placeholder="ex: 42" />
+                    </div>
+                    <div class="inv-prompt-row">
+                        <label>Quantité</label>
+                        <input id="inv-prompt-amount" type="number" min="1" value="1" />
+                    </div>
+                </div>
+                <footer>
+                    <button id="inv-prompt-cancel" class="inv-btn-ghost">Annuler</button>
+                    <button id="inv-prompt-ok" class="inv-btn-primary">Confirmer</button>
+                </footer>
+            </div>
+        </div>
+    </div>
+
     <script src="app.js"></script>
+    <script src="characters.js"></script>
+    <script src="admin.js"></script>
+    <script src="inventory.js"></script>
 </body>
 </html>
